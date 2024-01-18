@@ -12,7 +12,7 @@ const targets = { helix: [] };
 
 function init(images) {
     scene = new THREE.Scene();
-    camera = new THREE.PerspectiveCamera(80, parentElement.clientWidth / parentElement.clientHeight, 1, 10000);
+    camera = new THREE.PerspectiveCamera(90, parentElement.clientWidth / parentElement.clientHeight, 1, 10000);
     camera.position.set(0, 0, 7500);
     vector = new THREE.Vector3();
 
@@ -22,7 +22,7 @@ function init(images) {
     renderer = initRenderer();
     controls = initControls(renderer);
 
-    transform(targets.helix, 0, 1, 1, 1);
+    transform(targets.helix, 0, 1);
 
     window.addEventListener('resize', onWindowResize);
 }
@@ -54,7 +54,7 @@ function defineHelixTransform(objects, vector) {
         const y = parentElement.clientHeight * -0.4;
 
         const object = new THREE.Object3D();
-        object.position.setFromCylindricalCoords(5500, theta, y);
+        object.position.setFromCylindricalCoords(5000, theta, y);
 
         vector.x = object.position.x * 2;
         vector.y = object.position.y;
@@ -94,11 +94,10 @@ function initImgObjects(scene, images) {
     return objects
 }
 
-function transform(targets, duration, x_scale = 1, y_scale = 1, z_scale = 1) {
+function transform(targets, duration, scale = 1) {
     TWEEN.removeAll();
 
     for (let i = 0; i < objects.length; i++) {
-
         const object = objects[i];
         const target = targets[i];
 
@@ -111,8 +110,9 @@ function transform(targets, duration, x_scale = 1, y_scale = 1, z_scale = 1) {
             .to({ x: target.rotation.x, y: target.rotation.y, z: target.rotation.z }, Math.random() * duration + duration)
             .easing(TWEEN.Easing.Exponential.InOut)
             .start();
+
         new TWEEN.Tween(object.scale)
-            .to({ x: x_scale, y: y_scale, z: z_scale })
+            .to({ x: scale, y: scale, z: scale })
             .easing(TWEEN.Easing.Exponential.InOut)
             .start();
     }

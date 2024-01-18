@@ -39,10 +39,9 @@ function initControls(renderer) {
 
 function initRenderer() {
     let renderer = new CSS3DRenderer();
-    let main = parentElement;
-    renderer.setSize(main.clientWidth, main.clientHeight);
-    main.appendChild(renderer.domElement);
-    main.style.overflow = '';
+    renderer.setSize(parentElement.clientWidth, parentElement.clientHeight);
+    renderer.domElement.classList.add('scene');
+    parentElement.appendChild(renderer.domElement);
     return renderer
 }
 
@@ -167,9 +166,9 @@ function getOS() {
 }
 
 function visibleOverflowStyling() {
-    const firstChildDiv = document.querySelector('.mag-carousel > div:first-child');
-    if (firstChildDiv) {
-        firstChildDiv.style.overflow = 'visible';
+    const sceneDiv = document.querySelector('.mag-carousel .scene');
+    if (sceneDiv) {
+        sceneDiv.style.overflow = 'visible';
     }
 }
 

@@ -49,28 +49,12 @@ function defineHelixTransform(objects, vector) {
     const totalObjects = objects.length;
     const angleBetweenObjects = (2 * Math.PI) / totalObjects;
 
-    let radius;
-
-    if (parentElement.clientWidth > 1350) {
-        radius = 5000;
-        console.log(radius);
-    } else if (parentElement.clientWidth <= 1350 && parentElement.clientWidth > 1000) {
-        radius = 4500;
-        console.log(radius);
-    } else if (parentElement.clientWidth <= 1000 && parentElement.clientWidth > 700) {
-        radius = 4000;
-        console.log(radius);
-    } else {
-        radius = 3800;
-        console.log(radius);
-    }
-
     for (let i = 0; i < totalObjects; i++) {
         const theta = i * angleBetweenObjects + Math.PI;
         const y = parentElement.clientHeight * -0.4;
 
         const object = new THREE.Object3D();
-        object.position.setFromCylindricalCoords(radius, theta, y);
+        object.position.setFromCylindricalCoords(5000, theta, y);
 
         vector.x = object.position.x * 2;
         vector.y = object.position.y;
@@ -81,7 +65,6 @@ function defineHelixTransform(objects, vector) {
         targets.helix.push(object);
     }
 }
-
 
 
 function initImgObjects(scene, images) {
@@ -140,31 +123,11 @@ function transform(targets, duration, scale = 1) {
         .start();
 }
 
-// Define a debounce function
-function debounce(func, wait) {
-    let timeout;
-    return function () {
-        const context = this;
-        const args = arguments;
-        clearTimeout(timeout);
-        timeout = setTimeout(function () {
-            func.apply(context, args);
-        }, wait);
-    };
-}
-
-// Apply debounce to defineHelixTransform
-const debouncedDefineHelixTransform = debounce(defineHelixTransform, 80);
-
 function onWindowResize() {
     camera.aspect = parentElement.clientWidth / parentElement.clientHeight;
     camera.updateProjectionMatrix();
 
     renderer.setSize(parentElement.clientWidth, parentElement.clientHeight);
-
-    // Call the debounced version of defineHelixTransform
-    debouncedDefineHelixTransform(objects, vector);
-
     render();
 }
 

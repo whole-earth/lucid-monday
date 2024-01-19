@@ -124,7 +124,8 @@ function transform(targets, duration, scale = 1) {
 }
 
 function onWindowResize() {
-    camera.aspect = parentElement.clientWidth / parentElement.clientHeight;
+    // camera.aspect = parentElement.clientWidth / parentElement.clientHeight;
+    camera.aspect = 4 / 3;
     camera.updateProjectionMatrix();
 
     renderer.setSize(parentElement.clientWidth, parentElement.clientHeight);

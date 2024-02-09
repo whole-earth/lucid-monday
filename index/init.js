@@ -3,7 +3,8 @@ import { TWEEN } from "./libs/tween.module.min.js";
 import { TrackballControls } from "./libs/TrackballControls.js";
 import { CSS3DRenderer, CSS3DObject } from "./libs/CSS3dRenderer.js";
 
-let camera, scene, renderer, objects, vector;
+
+let camera, scene, renderer, objects;
 let controls;
 
 const parentElement = document.querySelector('.mag-carousel');
@@ -12,12 +13,11 @@ const targets = { helix: [] };
 
 function init(images) {
     scene = new THREE.Scene();
-    camera = new THREE.PerspectiveCamera(90, parentElement.clientWidth / parentElement.clientHeight, 1, 10000);
+    camera = new THREE.PerspectiveCamera(90, parentElement.clientWidth / parentElement.clientHeight, 0.1, 1000);
     camera.position.set(0, 0, 7500);
-    vector = new THREE.Vector3();
 
-    objects = initImgObjects(scene, images)
-    defineHelixTransform(objects, vector);
+    objects = initImgObjects(scene, images);
+    defineHelixTransform(objects);
 
     renderer = initRenderer();
     controls = initControls(renderer);
@@ -34,7 +34,7 @@ function initControls(renderer) {
     controls.dynamicDampingFactor = .1;
 
     controls.addEventListener('change', render);
-    return controls
+    return controls;
 }
 
 function initRenderer() {
@@ -42,30 +42,25 @@ function initRenderer() {
     renderer.setSize(parentElement.clientWidth, parentElement.clientHeight);
     renderer.domElement.classList.add('scene');
     parentElement.appendChild(renderer.domElement);
-    return renderer
+    return renderer;
 }
 
-function defineHelixTransform(objects, vector) {
+function defineHelixTransform(objects) {
     const totalObjects = objects.length;
     const angleBetweenObjects = (2 * Math.PI) / totalObjects;
 
     for (let i = 0; i < totalObjects; i++) {
         const theta = i * angleBetweenObjects + Math.PI;
-        const y = parentElement.clientHeight * -0.4;
+        const y = parentElement.clientHeight * -0.2;
 
         const object = new THREE.Object3D();
         object.position.setFromCylindricalCoords(5000, theta, y);
 
-        vector.x = object.position.x * 2;
-        vector.y = object.position.y;
-        vector.z = object.position.z * 2;
-
-        object.lookAt(vector);
+        object.lookAt(new THREE.Vector3());
 
         targets.helix.push(object);
     }
 }
-
 
 function initImgObjects(scene, images) {
     let objects = [];
@@ -74,24 +69,17 @@ function initImgObjects(scene, images) {
 
         img.src = images[i];
 
-        // Hack: Android Chromium browsers don't render properly if the <img>
-        // is embedded in an <a> or if the <img> has certain CSS (border-radius, hover
-        // effect, etc.)
-        if (getOS() === "Android") {
-            img.classList.add("render--android");
-        } else {
-            img.classList.add("render");
-        }
+        img.classList.add("render");
 
         const objectCSS = new CSS3DObject(img);
         objectCSS.position.x = Math.random() * 4000 - 2000;
         objectCSS.position.y = Math.random() * 4000 - 2000;
         objectCSS.position.z = Math.random() * 4000 - 2000;
 
-        scene.add(objectCSS)
-        objects.push(objectCSS)
+        scene.add(objectCSS);
+        objects.push(objectCSS);
     }
-    return objects
+    return objects;
 }
 
 function transform(targets, duration, scale = 1) {
@@ -125,7 +113,6 @@ function transform(targets, duration, scale = 1) {
 
 function onWindowResize() {
     camera.aspect = parentElement.clientWidth / parentElement.clientHeight;
-    // camera.aspect = 4 / 3;
     camera.updateProjectionMatrix();
 
     renderer.setSize(parentElement.clientWidth, parentElement.clientHeight);
@@ -134,6 +121,7 @@ function onWindowResize() {
 
 function animate() {
     requestAnimationFrame(animate);
+
     TWEEN.update();
     controls.update();
 }
@@ -141,29 +129,6 @@ function animate() {
 function render() {
     renderer.render(scene, camera);
     visibleOverflowStyling();
-}
-
-function getOS() {
-    let userAgent = window.navigator.userAgent,
-        platform = window.navigator.platform,
-        macosPlatforms = ['Macintosh', 'MacIntel', 'MacPPC', 'Mac68K'],
-        windowsPlatforms = ['Win32', 'Win64', 'Windows', 'WinCE'],
-        iosPlatforms = ['iPhone', 'iPad', 'iPod'],
-        os = null;
-
-    if (macosPlatforms.indexOf(platform) !== -1) {
-        os = 'Mac OS';
-    } else if (iosPlatforms.indexOf(platform) !== -1) {
-        os = 'iOS';
-    } else if (windowsPlatforms.indexOf(platform) !== -1) {
-        os = 'Windows';
-    } else if (/Android/.test(userAgent)) {
-        os = 'Android';
-    } else if (!os && /Linux/.test(platform)) {
-        os = 'Linux';
-    }
-
-    return os;
 }
 
 function visibleOverflowStyling() {

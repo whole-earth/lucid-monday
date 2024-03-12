@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>🦠 Cell Model ✨</title>
+  <link rel="stylesheet" href="style.css">
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/dat-gui/0.7.6/dat.gui.min.js"></script>
+  <script type="importmap">
+      {
+        "imports": {
+          "three": "./node_modules/three/build/three.module.js",
+          "three/GLTFLoader": "./node_modules/three/examples/jsm/loaders/GLTFLoader.js",
+          "three/DracoLoader": "./node_modules/three/examples/jsm/loaders/DRACOLoader.js",
+          "three/RGBELoader": "./node_modules/three/examples/jsm/loaders/RGBELoader.js",
+          "three/OrbitControls": "./node_modules/three/examples/jsm/controls/OrbitControls.js",
+          "@pmndrs/vanilla": "./transmissionMaterial.js"
+          }
+      }
+    </script>
+</head>
+
+<body>
+
+  <section class="cell">
+
+    <div class="splash">splash</div>
+    <div class="dive">dive</div>
+    <div class="zoom-out">zoom-out</div>
+    
+  </section>
+  
+  <section class="human">
+
+  </section>
+</body>
+  
+  <script type="module" src="script.js"></script>
+
+</html>

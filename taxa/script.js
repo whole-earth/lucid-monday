@@ -115,7 +115,18 @@ cellRender.toneMapping = THREE.ACESFilmicToneMapping;
 const side = Math.min(window.innerHeight * 1.25, window.innerWidth) * 1.15;
 cellRender.setSize(side, side);
 cellRender.domElement.classList.add("cell-three");
-document.querySelector(".cell").appendChild(cellRender.domElement);
+// And insert as first child
+const cellSection = document.querySelector(".cell");
+cellSection.insertBefore(cellRender.domElement, cellSection.firstChild);
+
+// Get the .cell section
+const cellSection = document.querySelector(".cell");
+
+// Insert the canvas as the first child
+cellSection.insertBefore(cellRender.domElement, cellSection.firstChild);
+
+
+
 
 // OrbitControls
 const controls = new OrbitControls(camera, cellRender.domElement);

@@ -19,7 +19,7 @@ class CellComponent {
       this.position = new THREE.Vector3(0, 0, 0);
 
       // this.basePath = '/assets/obj/'; // PATHCHANGE
-      this.basePath = 'https://whole-earth.github.io/lucid-monday/taxa/assets/obj/';
+      this.basePath = 'https://whole-earth.github.io/lucid-monday/taxa/cell/assets/obj/';
       this.loader = new GLTFLoader();
       // const dracoLoader = new DRACOLoader()
 
@@ -115,16 +115,8 @@ cellRender.toneMapping = THREE.ACESFilmicToneMapping;
 const side = Math.min(window.innerHeight * 1.25, window.innerWidth) * 1.15;
 cellRender.setSize(side, side);
 cellRender.domElement.classList.add("cell-three");
-// And insert as first child
 const cellSection = document.querySelector(".cell");
 cellSection.insertBefore(cellRender.domElement, cellSection.firstChild);
-
-// Get the .cell section
-const cellSection = document.querySelector(".cell");
-
-// Insert the canvas as the first child
-cellSection.insertBefore(cellRender.domElement, cellSection.firstChild);
-
 
 
 
@@ -296,7 +288,7 @@ const glass = Object.assign(new MeshTransmissionMaterial(10), {
 // SPONGE TEXTURE
 const sponge = new THREE.MeshBasicMaterial({
   // map: new THREE.TextureLoader().load("/assets/textures/sponge.jpg"), // PATHCHANGE
-  map: new THREE.TextureLoader().load("https://whole-earth.github.io/lucid-monday/taxa/assets/textures/sponge.jpg"),
+  map: new THREE.TextureLoader().load("https://whole-earth.github.io/lucid-monday/taxa/cell/assets/textures/sponge.jpg"),
 });
 
 // RIBBON TEXTURE

@@ -115,8 +115,12 @@ cellRender.toneMapping = THREE.ACESFilmicToneMapping;
 const side = Math.min(window.innerHeight * 1.25, window.innerWidth) * 1.15;
 cellRender.setSize(side, side);
 cellRender.domElement.classList.add("cell-three");
-const cellSection = document.querySelector(".cell");
-cellSection.insertBefore(cellRender.domElement, cellSection.firstChild);
+
+document.querySelector(".cell").appendChild(cellRender.domElement);
+
+// Previous: append as first child. doesn't work
+// const cellSection = document.querySelector(".cell");
+// cellSection.insertBefore(cellRender.domElement, cellSection.firstChild);
 
 
 

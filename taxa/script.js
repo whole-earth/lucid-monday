@@ -18,7 +18,8 @@ class CellComponent {
       this.scene = scene;
       this.position = new THREE.Vector3(0, 0, 0);
 
-      this.basePath = '/assets/obj/';
+      // this.basePath = '/assets/obj/'; // PATHCHANGE
+      this.basePath = 'https://whole-earth.github.io/lucid-monday/taxa/assets/obj/';
       this.loader = new GLTFLoader();
       // const dracoLoader = new DRACOLoader()
 
@@ -281,34 +282,10 @@ const glass = Object.assign(new MeshTransmissionMaterial(10), {
   transparent: true,
 });
 
-// CHANGES : Played around with the settings to get the best results. The original glass config is commented above
-
-// good version 1 
-
-// const glass = Object.assign(new MeshTransmissionMaterial(8), {
-//   clearcoat: 0.3,
-//   clearcoatRoughness: 0.3,
-//   transmission: 1,
-//   transparent: true,
-//   opacity: 0.7,
-//   chromaticAberration: 0.3,
-//   // attenuationColor: '#ecf2c0',
-//   // attenuationDistance: 0.005,
-//   anisotrophicBlur: 0.7,
-//   // Set to > 0 for diffuse roughness
-//   ior: 1.8,
-//   roughness: 0.71,
-//   thickness: 4.5,
-//   // Set to > 0 for animation
-//   distortion: 2.6,
-//   distortionScale: 0.13,
-//   temporalDistortion: 0.3,
-//   side: THREE.DoubleSide
-// });
-
 // SPONGE TEXTURE
 const sponge = new THREE.MeshBasicMaterial({
-  map: new THREE.TextureLoader().load("/assets/textures/sponge.jpg"),
+  // map: new THREE.TextureLoader().load("/assets/textures/sponge.jpg"), // PATHCHANGE
+  map: new THREE.TextureLoader().load("https://whole-earth.github.io/lucid-monday/taxa/assets/textures/sponge.jpg"),
 });
 
 // RIBBON TEXTURE

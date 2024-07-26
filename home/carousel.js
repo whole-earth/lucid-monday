@@ -39,6 +39,7 @@ function sceneInit(radius) {
     scene.background = null;
     camera = new THREE.PerspectiveCamera(60, window.innerWidth / (window.innerWidth / 16 * 9), 0.1, 1000);
     renderer = new THREE.WebGLRenderer({ antialias: true, devicePixelRatio: window.devicePixelRatio, alpha: true });
+    renderer.outputEncoding = THREE.sRGBEncoding;
 
     function updateRendererSize() {
         const width = window.innerWidth;
@@ -100,30 +101,35 @@ function magCoverInit(imageLinks, radius) {
     const imageCount = imageLinks.length * 2;
     for (let i = 0; i < imageCount; i++) {
         const texture = textureLoader.load(imageLinks[i % imageLinks.length]);
+
+        texture.encoding = THREE.sRGBEncoding;
+        texture.minFilter = THREE.LinearFilter; // or THREE.NearestFilter
+        texture.magFilter = THREE.LinearFilter; // or THREE.NearestFilter
         texture.anisotropy = renderer.capabilities.getMaxAnisotropy();
 
         const width = 1;
         const height = width * 11 / 8.4;
-        const depth = width * 0.2 / 8.4;
+        const depth = width * 0.15 / 8.4;
         const geometry = new THREE.BoxGeometry(width, height, depth);
 
         const frontTexture = texture.clone();
-        frontTexture.repeat.set(0.49, 1); // Rightmost 49%
-        frontTexture.offset.set(0.51, 0); // Offset to start from the rightmost 49%
-        const frontCover = new THREE.MeshBasicMaterial({ map: frontTexture, side: THREE.FrontSide });
+        frontTexture.repeat.set(0.495, 1); // Rightmost 49.5%
+        frontTexture.offset.set(0.505, 0); // Offset to start from the rightmost 49.5%
+        const frontCover = new THREE.MeshBasicMaterial({ map: frontTexture,  side: THREE.FrontSide });
 
         const backTexture = texture.clone();
-        backTexture.repeat.set(0.49, 1); // Leftmost 49%
-        backTexture.offset.set(0, 0); // Offset to start from the leftmost 49%
-        const backCover = new THREE.MeshBasicMaterial({ map: backTexture, side: THREE.FrontSide });
+        backTexture.repeat.set(0.495, 1); // Leftmost 49.5%
+        backTexture.offset.set(0, 0); // Offset to start from the leftmost 49.5%
+        const backCover = new THREE.MeshBasicMaterial({ map: backTexture,  side: THREE.FrontSide });
 
         const leftSpineTexture = texture.clone();
-        leftSpineTexture.repeat.set(0.02, 1); // Middle 2%
-        leftSpineTexture.offset.set(0.49, 0); // Offset to start from the middle 2%
-        const leftSpine = new THREE.MeshBasicMaterial({ map: leftSpineTexture, side: THREE.FrontSide });
+        leftSpineTexture.repeat.set(0.01, 1); // Middle 1%
+        leftSpineTexture.offset.set(0.495, 0); // Offset to start from the middle 2%
+        const leftSpine = new THREE.MeshBasicMaterial({ map: leftSpineTexture,  side: THREE.FrontSide });
 
-        const spineMaterial = new THREE.MeshBasicMaterial({ color: 0xcccccc });
+        const spineMaterial = new THREE.MeshBasicMaterial({ color: 0xE5E5E5 });
 
+        // Order of materials for BoxGeometry:
         // [right, left, top, bottom, front, back]
         const materials = [
             spineMaterial,
